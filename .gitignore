@@ -146,5 +146,5 @@ dmypy.json
 
 output/*
 config.py
-
+chromedriver
 
