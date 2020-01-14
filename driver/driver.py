@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 
 import json
 import datetime
+import time
 
 warnings.filterwarnings('ignore')
 
@@ -136,7 +137,7 @@ def get_titleprice(tmp_value, platform):
 
 
     ############
-    
+
     return output
 
 def get_titlelist(platform, url):
@@ -180,7 +181,12 @@ def get_titlelist(platform, url):
 
     driver.implicitly_wait(5)
     driver.get(url)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(5)
+    # Select(driver.find_element_by_class_name('qnt_selector')).select_by_value('90')
+
+    driver.find_element_by_xpath("//select[@class='qnt_selector']//option[@value='90']").click()
+    time.sleep(1)
+    driver.implicitly_wait(1)
 
     print("################################")
     print("%s ProductName List" % platform)
@@ -189,6 +195,7 @@ def get_titlelist(platform, url):
 
     result = []
     tmp_value = []
+    ranking = 0
     for prod_main_info in prod_main_info_list :
 
         prod_info = prod_main_info.find_element_by_class_name("prod_info")
@@ -197,7 +204,13 @@ def get_titlelist(platform, url):
         prod_pricelist = prod_main_info.find_element_by_class_name("prod_pricelist")
         price_list = prod_pricelist.text.replace('\n', ' ')
 
-        pop_rank = int(prod_name.find_element_by_class_name("pop_rank").text)
+        ranking+=1
+        try:
+            pop_rank = int(prod_name.find_element_by_class_name("pop_rank").text)
+        except Exception: # 에러 종류
+            pop_rank = ranking
+
+        # pop_rank = int(prod_name.find_element_by_class_name("pop_rank").text)
         productName = prod_name.find_element_by_name("productName")
         weblink = productName.get_attribute("href")
 
