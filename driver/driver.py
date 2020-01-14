@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import config
+
 import warnings
 import asyncio
 
@@ -17,7 +19,7 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--remote-debugging-port=9222')  # 이 부분이 핵심
-driver = webdriver.Chrome('/root/driver/chromedriver', chrome_options=chrome_options)
+driver = webdriver.Chrome(config.homepath+'chromedriver', chrome_options=chrome_options)
 
 
 
@@ -35,7 +37,7 @@ driver = webdriver.Chrome('/root/driver/chromedriver', chrome_options=chrome_opt
 # mycursor = mydb.cursor(buffered=True)
 #######SQLITE 접속#################
 import sqlite3
-mydb = sqlite3.connect('/root/driver/test_3.db')
+mydb = sqlite3.connect(config.homepath+'test_3.db')
 mycursor = mydb.cursor()
 
 ######mysql 접속#########
@@ -205,7 +207,7 @@ def get_titlelist(platform, url):
         r = get_titleprice(t, platform)
         result.append(r)
 
-    with open("/root/driver/output/{}_result_{}.json".format(platform, datetime.date.today().strftime('%Y-%m-%d')), 'w') as outfile:
+    with open(config.homepath+"output/{}_result_{}.json".format(platform, datetime.date.today().strftime('%Y-%m-%d')), 'w') as outfile:
         json.dump(result, outfile, ensure_ascii=False, sort_keys=True, indent=4)
 
 get_titlelist("PS4",'http://prod.danawa.com/list/?cate=19221773&15main_19_02')          # main이 끝날 때까지 기다림
