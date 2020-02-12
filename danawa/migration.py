@@ -76,4 +76,7 @@ for line in fileinput.input():
     if re.search(r"'None'", line):
         line = re.sub("'None'", "NULL", line)
 
+    if re.search(r"spec VARCHAR(255)", line):
+        line = re.sub("spec VARCHAR(255)", "spec VARCHAR(511)", line)
+
     print(line)

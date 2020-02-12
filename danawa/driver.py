@@ -154,7 +154,7 @@ def get_titlelist(platform, url):
                 rank INT,
                 price INT,
                 origin_price INT,
-                spec VARCHAR(255),
+                spec VARCHAR(511),
                 release_date DATE,
                 manufacturer VARCHAR(255),
                 made_info VARCHAR(255),
