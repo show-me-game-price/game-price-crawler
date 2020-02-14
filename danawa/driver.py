@@ -70,6 +70,7 @@ def get_titleprice(tmp_value, platform):
         print(ex) # ex는 발생한 에러의 이름을 받아오는 변수
         price = None
 
+    genre = spec_list.split("장르: ")[1].split(" / ")[0]
     made_info = driver.find_element_by_class_name("made_info").text.replace('\n', '')
     release_date = driver.find_element_by_class_name("made_info").find_element_by_class_name("txt").text.split(": ")[1].replace('.','-')
     manufacturer = driver.find_element_by_class_name("made_info").find_element_by_id("makerTxtArea").text.split(": ")[1]
@@ -82,6 +83,7 @@ def get_titleprice(tmp_value, platform):
         "price" : price,
         "origin_price" : origin_price,
         "price_list" : tmp_value['price_list'],
+        "genre" : genre,
         "spec" : spec_list,
         "release_date" : release_date,
         "manufacturer" : manufacturer,
