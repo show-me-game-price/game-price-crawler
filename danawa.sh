@@ -1,1 +1,1 @@
-python3 /root/title-crawler/driver/driver.py
+python3 /root/game-price-crawler/danawa/driver.py
