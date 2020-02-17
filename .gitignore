@@ -150,3 +150,6 @@ chromedriver
 test*
 
 *.sql
+
+*.db
+*.bak
