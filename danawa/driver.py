@@ -3,15 +3,14 @@
 import config
 
 import warnings
-import asyncio
 
 from selenium import webdriver
-from bs4 import BeautifulSoup
-
 
 import json
 import datetime
 import time
+
+from pathlib import Path
 
 warnings.filterwarnings('ignore')
 
@@ -22,7 +21,8 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--remote-debugging-port=9222')  # 이 부분이 핵심
 driver = webdriver.Chrome(config.homepath+'chromedriver', chrome_options=chrome_options)
 
-
+##create output path
+Path(config.homepath+"output").mkdir(parents=True, exist_ok=True)
 
 ######mysql 접속#########
 
