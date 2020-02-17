@@ -38,7 +38,7 @@ driver = webdriver.Chrome(config.homepath+'chromedriver', chrome_options=chrome_
 # mycursor = mydb.cursor(buffered=True)
 #######SQLITE 접속#################
 import sqlite3
-mydb = sqlite3.connect(config.homepath+'test_3.db')
+mydb = sqlite3.connect(config.homepath+'danawa.db')
 mycursor = mydb.cursor()
 
 ######mysql 접속#########
@@ -70,7 +70,7 @@ def get_titleprice(tmp_value, platform):
         print(ex) # ex는 발생한 에러의 이름을 받아오는 변수
         price = None
 
-    genre = spec_list.split("장르: ")[1].split(" / ")[0]
+    genre = spec_list.split("장르: ")[1].split(" / ")[0].replace(' , ', ',')
     made_info = driver.find_element_by_class_name("made_info").text.replace('\n', '')
     release_date = driver.find_element_by_class_name("made_info").find_element_by_class_name("txt").text.split(": ")[1].replace('.','-')
     manufacturer = driver.find_element_by_class_name("made_info").find_element_by_id("makerTxtArea").text.split(": ")[1]
@@ -99,10 +99,10 @@ def get_titleprice(tmp_value, platform):
     if title_list_check :
         # todo: id가 있으면 가져와서 저장, 없으면 생성
         # todo : id rule (autoencrement)
-        sql = """UPDATE {}_TITLE_INFO set record_date = '{}', rank={}, price='{}', origin_price='{}', spec='{}', release_date='{}', 
+        sql = """UPDATE {}_TITLE_INFO set record_date = '{}', rank={}, price='{}', origin_price='{}', genre='{}',spec='{}', release_date='{}', 
                 manufacturer='{}', made_info='{}', img_src='{}', weblink='{}' where title_name = '{}';
                 """.format(platform,
-                           output['record_date'], output['rank'], output['price'], output['origin_price'], output['spec'], output['release_date'],
+                           output['record_date'], output['rank'], output['price'], output['origin_price'], output['genre'], output['spec'], output['release_date'],
                            output['manufacturer'], output['made_info'], output['img_src'], tmp_value['weblink'],
                            title_name)
         mycursor.execute(sql)
@@ -110,11 +110,11 @@ def get_titleprice(tmp_value, platform):
         mydb.commit()
     else :
         sql = """INSERT 
-                INTO {}_TITLE_INFO (record_date, title_name, rank, price, origin_price, 
+                INTO {}_TITLE_INFO (record_date, title_name, rank, price, origin_price, genre,
                 spec, release_date, manufacturer, made_info, img_src, weblink) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """.format(platform)
-        val = (output['record_date'], output['title_name'], output['rank'], output['price'], output['origin_price'],
+        val = (output['record_date'], output['title_name'], output['rank'], output['price'], output['origin_price'], output['genre'],
                output['spec'], output['release_date'], output['manufacturer'], output['made_info'], output['img_src'], tmp_value['weblink'])
         mycursor.execute(sql, val)
 
@@ -156,6 +156,7 @@ def get_titlelist(platform, url):
                 rank INT,
                 price INT,
                 origin_price INT,
+                genre VARCHAR(255),
                 spec VARCHAR(511),
                 release_date DATE,
                 manufacturer VARCHAR(255),
