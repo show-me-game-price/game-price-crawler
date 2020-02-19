@@ -4,6 +4,9 @@
 
 var sqlite3 = require('sqlite3').verbose()
 var async = require('async')
+
+var config = require('./config')
+
 const selectInfoQuery = `
         select * from PS4_TITLE_INFO
     `;
@@ -29,7 +32,7 @@ module.exports.price = function() {
             }
             async.waterfall([
                 function(callback) {
-                    let db = new sqlite3.Database('/Users/jeewoongseong/learning/title-crawler/danawa.db', sqlite3.OPEN_READWRITE, (err) => {
+                    let db = new sqlite3.Database(config.homepath+'danawa.db', sqlite3.OPEN_READWRITE, (err) => {
                         if (err) {
                             console.error(err.message);
                         } else {
@@ -125,7 +128,7 @@ module.exports.rank = function() {
             }
             async.waterfall([
                 function(callback) {
-                    let db = new sqlite3.Database('/Users/jeewoongseong/learning/title-crawler/danawa.db', sqlite3.OPEN_READWRITE, (err) => {
+                    let db = new sqlite3.Database(config.homepath+'danawa.db', sqlite3.OPEN_READWRITE, (err) => {
                         if (err) {
                             console.error(err.message);
                         } else {
