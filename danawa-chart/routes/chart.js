@@ -1,0 +1,30 @@
+var express = require('express');
+var router = express.Router();
+var fs = require('fs')
+var await = require('await')
+
+var danawa = require('../sql')
+/* GET chart. */
+router.get('/', function(req, res, next) {
+    // res.send('respond with a resource');
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    fs.createReadStream("./views/chart.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+});
+
+router.get('/price/raw', async function(req, res, next) {
+    const result = await danawa.price();
+    res.send(result);
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    // fs.createReadStream("./views/chart.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+
+    // danawa().then(result => res.send(result));
+});
+router.get('/rank/raw', async function(req, res, next) {
+    const result = await danawa.rank();
+    res.send(result);
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    // fs.createReadStream("./views/chart.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+
+    // danawa().then(result => res.send(result));
+});
+module.exports = router;
