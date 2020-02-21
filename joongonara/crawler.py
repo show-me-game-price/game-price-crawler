@@ -26,7 +26,7 @@ def crawl(id, keyword):
 
   driver.get('https://www.naver.com')
   driver.get('https://m.cafe.naver.com/ArticleSearchList.nhn?search.query=' + keyword + '&search.menuid=&search.searchBy=1&search.sortBy=date&search.clubid=10050146&search.option=0&search.defaultValue=')
-  driver.implicitly_wait(5)
+  driver.implicitly_wait(10)
   
   post_list = []
   yesterday = (datetime.today() - timedelta(1)).strftime('%y.%m.%d.')
@@ -77,8 +77,8 @@ def crawl(id, keyword):
     
   for post in post_list:
     driver.get(post['url'])
-    driver.implicitly_wait(random.randrange(1, 5))
-    time.sleep(0.5)
+    driver.implicitly_wait(10)
+    time.sleep(1)
 
     try:
       price_element = driver.find_element_by_css_selector('#ct > div.post > h4 > span.price > em')
