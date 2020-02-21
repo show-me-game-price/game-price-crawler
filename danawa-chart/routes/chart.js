@@ -27,4 +27,10 @@ router.get('/rank/raw', async function(req, res, next) {
 
     // danawa().then(result => res.send(result));
 });
+
+router.get('/d3', function(req, res, next) {
+    // res.send('respond with a resource');
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    fs.createReadStream("./views/d3.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+});
 module.exports = router;
