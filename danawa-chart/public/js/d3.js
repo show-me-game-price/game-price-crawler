@@ -9,7 +9,7 @@ for(i = 0; i<tmp_data.datasets.length;i++){
     var tmp_series = {name:'',values:[]}
     tmp_series.name = tmp_data.datasets[i].label;//name
     for(j = tmp_data.datasets[i].data.length-14; j<tmp_data.datasets[i].data.length;j++){
-        var tmp_y = null
+        var tmp_y = 100
         try{
             tmp_y = tmp_data.datasets[i].data[j].y
         } catch (err) {
