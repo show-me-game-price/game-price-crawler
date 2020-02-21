@@ -32,7 +32,7 @@ var x = d3.scaleUtc()
     .range([margin.left, width - margin.right])
 var y = d3.scaleLinear()
     .domain([0, d3.max(data.series, d => d3.max(d.values))]).nice()
-    .range([height - margin.bottom, margin.top])
+    .range([margin.top, height - margin.bottom])
 var xAxis = g => g
     .attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
