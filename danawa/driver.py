@@ -95,43 +95,43 @@ def get_titleprice(tmp_value, platform):
 
 
     ############
-    title_list_check = mycursor.execute("""SELECT title_name FROM {}_TITLE_INFO where title_name = '{}'""".format(platform,title_name)).fetchone()
+    title_list_check = mycursor.execute("""SELECT title_name FROM TITLE_INFO where title_name = '{}' and platform = '{}'""".format(title_name, platform)).fetchone()
     if title_list_check :
         # todo: id가 있으면 가져와서 저장, 없으면 생성
         # todo : id rule (autoencrement)
-        sql = """UPDATE {}_TITLE_INFO set record_date = '{}', rank={}, price='{}', origin_price='{}', genre='{}',spec='{}', release_date='{}', 
-                manufacturer='{}', made_info='{}', img_src='{}', weblink='{}' where title_name = '{}';
-                """.format(platform,
+        sql = """UPDATE TITLE_INFO set record_date = '{}', rank={}, price='{}', origin_price='{}', genre='{}',spec='{}', release_date='{}', 
+                manufacturer='{}', made_info='{}', img_src='{}', weblink='{}' where title_name = '{}' and platform = '{}' ;
+                """.format(
                            output['record_date'], output['rank'], output['price'], output['origin_price'], output['genre'], output['spec'], output['release_date'],
                            output['manufacturer'], output['made_info'], output['img_src'], tmp_value['weblink'],
-                           title_name)
+                           title_name, platform)
         mycursor.execute(sql)
 
         mydb.commit()
     else :
         sql = """INSERT 
-                INTO {}_TITLE_INFO (record_date, title_name, rank, price, origin_price, genre,
+                INTO TITLE_INFO (record_date, platform, title_name, rank, price, origin_price, genre,
                 spec, release_date, manufacturer, made_info, img_src, weblink) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """.format(platform)
-        val = (output['record_date'], output['title_name'], output['rank'], output['price'], output['origin_price'], output['genre'],
+        val = (output['record_date'], platform, output['title_name'], output['rank'], output['price'], output['origin_price'], output['genre'],
                output['spec'], output['release_date'], output['manufacturer'], output['made_info'], output['img_src'], tmp_value['weblink'])
         mycursor.execute(sql, val)
 
         mydb.commit()
-    title_id = mycursor.execute("""SELECT title_id FROM {}_TITLE_INFO where title_name = '{}'""".format(platform,title_name)).fetchone()[0]
+    title_id = mycursor.execute("""SELECT title_id FROM TITLE_INFO where title_name = '{}' and platform = '{}' """.format(title_name,platform)).fetchone()[0]
 
     ###############
     ##todo: ID 값 추가
     ##todo : Insert or Ignore이 왜 되지 않는것인지 확
     sql = """INSERT 
             OR IGNORE 
-            INTO {}_TITLE_PRICE (record_date, title_id, title_name, rank, price, origin_price, 
+            INTO TITLE_PRICE (record_date, platform, title_id, title_name, rank, price, origin_price, 
             price_list) 
-            VALUES (?, ?, ?, ?, ?, ?, ?);
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
             """.format(platform)
 
-    val = (output['record_date'], title_id, output['title_name'], output['rank'], output['price'], output['origin_price'],
+    val = (output['record_date'], platform, title_id, output['title_name'], output['rank'], output['price'], output['origin_price'],
            output['price_list'])
     mycursor.execute(sql, val)
 
@@ -149,8 +149,9 @@ def get_titlelist(platform, url):
     #
 
     mycursor.execute("""
-            CREATE TABLE IF NOT EXISTS {}_TITLE_INFO (
+            CREATE TABLE IF NOT EXISTS TITLE_INFO (
                 record_date DATE,
+                platform VARCHAR(255),
                 title_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title_name VARCHAR(255),
                 rank INT,
@@ -168,8 +169,9 @@ def get_titlelist(platform, url):
         """.format(platform))
 
     mycursor.execute("""
-            CREATE TABLE IF NOT EXISTS {}_TITLE_PRICE (
+            CREATE TABLE IF NOT EXISTS TITLE_PRICE (
                 record_date DATE,
+                platform VARCHAR(255),
                 title_id INTEGER,
                 title_name VARCHAR(255),
                 rank INT,

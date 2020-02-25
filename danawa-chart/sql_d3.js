@@ -16,8 +16,8 @@ module.exports = function(platform, target) {
     return new Promise(
         resolve => {
 
-            var selectInfoQuery = `select * from `+platform+`_TITLE_INFO`;
-            var selectPriceQuery = `select * from `+platform+`_TITLE_PRICE`;
+            var selectInfoQuery = `select * from TITLE_INFO where platform = '` + platform + `'`;
+            var selectPriceQuery = `select * from TITLE_PRICE where platform = '` + platform + `'`;
             var data = {
                 labels: null,
                 titlelist: [],
@@ -28,8 +28,8 @@ module.exports = function(platform, target) {
 
             var d = new Date();
             d.setDate(d.getDate() - searchPeriod);
-            selectInfoQuery += ` where record_date >= '` + formatDate(d) + `'`;
-            selectPriceQuery += ` where record_date >= '` + formatDate(d) + `'`;
+            selectInfoQuery += ` and record_date >= '` + formatDate(d) + `'`;
+            selectPriceQuery += ` and record_date >= '` + formatDate(d) + `'`;
 
             for (var i = searchPeriod; i >= 1; i--){
                 d.setDate(d.getDate() + 1);
