@@ -1,27 +1,23 @@
-var width = 960
-var height = 500
+var width = 1500
+var height = 1000
 var margin = ({top: 20, right: 20, bottom: 30, left: 30})
 
-var tmp_data = httpGet('/chart/rank/raw');
+var tmp_data = httpGet('/chart/d3/PS4/rank/raw');
 const columns = tmp_data.labels;
+var tmp_series = Object.values(tmp_data.datasets);
 var series = []
-for(i = 0; i<tmp_data.datasets.length;i++){
-    var tmp_series = {name:'',values:[]}
-    tmp_series.name = tmp_data.datasets[i].label;//name
-    for(j = tmp_data.datasets[i].data.length-14; j<tmp_data.datasets[i].data.length;j++){
-        var tmp_y = 100
-        try{
-            tmp_y = tmp_data.datasets[i].data[j].y
-        } catch (err) {
-
-        }
-        tmp_series.values.push(tmp_y)//values
-    }
-    series.push(tmp_series);
+for(var i = 0; i<tmp_series.length;i++) {
+    series.push({
+        name: tmp_series[i].name,
+        values: Array.from(
+            tmp_series[i].values,
+            x => x.y
+        )
+    });
 }
 
 var data = {
-    y: "% rank",
+    y: "rank",
     series: series,
     dates: columns.map(d3.utcParse("%Y-%m-%d"))
 }
@@ -131,7 +127,5 @@ function httpGet(theUrl)
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );
     var result = JSON.parse(xmlHttp.responseText);
-
-    console.log(result);
     return result;
 }
