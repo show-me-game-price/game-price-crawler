@@ -1,6 +1,6 @@
 var width = 1500
 var height = 1000
-var margin = ({top: 20, right: 20, bottom: 30, left: 30})
+var margin = ({top: 20, right: 20, bottom: 30, left: 50})
 
 var tmp_data = httpGet('/chart/d3/PS4/price/raw');
 const columns = tmp_data.labels;
