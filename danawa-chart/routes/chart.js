@@ -49,4 +49,27 @@ router.get('/d3/PS4/price', function(req, res, next) {
     // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
     fs.createReadStream("./views/ps4price.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
 });
+
+
+
+router.get('/d3/switch/rank/raw', async function(req, res, next) {
+    const result = await danawa_d3("switch","rank");
+    res.send(result);
+});
+
+router.get('/d3/switch/price/raw', async function(req, res, next) {
+    const result = await danawa_d3("switch", "price");
+    res.send(result);
+});
+
+router.get('/d3/switch/rank', function(req, res, next) {
+    // res.send('respond with a resource');
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    fs.createReadStream("./views/switchrank.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+});
+router.get('/d3/switch/price', function(req, res, next) {
+    // res.send('respond with a resource');
+    // res.writeHead(200,{"Content-Type":"text/html"}); // 웹페이지 출력
+    fs.createReadStream("./views/switchprice.html").pipe(res); // 같은 디렉토리에 있는 index.html를 response 함
+});
 module.exports = router;
