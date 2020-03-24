@@ -174,12 +174,33 @@ module.exports.rank = function() {
                                 }
                             );
                         });
-                        data = {
-                            labels: date,
-                            datasets: titleRank
-                        }
                         callback(null, db);
                     });
+                },
+                function(db, callback) {
+                    titleRank.forEach(function (el){
+                        date.forEach(function (d){
+                            var flag = false;
+                            for (i = 0; i<el["data"].length;i++){
+                                if(el["data"][i].x == d)
+                                    flag = true;
+                            }
+                            if (flag == false){
+                                el["data"].push(
+                                    {
+                                        x: d,
+                                        y: 100
+                                    }
+                                )
+                            }
+                        });
+                    });
+
+                    data = {
+                        labels: date,
+                        datasets: titleRank
+                    }
+                    callback(null, db);
                 },
                 function(db, callback) {
                     db.close((err) => {

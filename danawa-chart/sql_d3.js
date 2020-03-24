@@ -7,7 +7,7 @@ var async = require('async')
 
 var config = require('./config')
 
-var searchPeriod =  20
+var searchPeriod =  30
 
 
 
