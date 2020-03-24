@@ -53,12 +53,12 @@ router.get('/d3/PS4/price', function(req, res, next) {
 
 
 router.get('/d3/switch/rank/raw', async function(req, res, next) {
-    const result = await danawa_d3("switch","rank");
+    const result = await danawa_d3("SWITCH","rank");
     res.send(result);
 });
 
 router.get('/d3/switch/price/raw', async function(req, res, next) {
-    const result = await danawa_d3("switch", "price");
+    const result = await danawa_d3("SWITCH", "price");
     res.send(result);
 });
 
