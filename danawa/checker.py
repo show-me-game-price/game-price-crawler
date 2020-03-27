@@ -13,17 +13,17 @@ mycursor = mydb.cursor()
 today = datetime.date.today().strftime('%Y-%m-%d')
 
 title_price = mycursor.execute("""SELECT count(*) FROM TITLE_PRICE where record_date = '{}'""".format(today)).fetchone()[0]
-if(title_price != 180) :
+if(title_price != 181) :
     error_msg = "game-price-crawler {} title_price = {}".format(today, title_price)
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.ehlo()      # say Hello
     smtp.starttls()  # TLS 사용시 필요
-    smtp.login('skt.mbp.smtp', 'mbpadmin1!')
+    smtp.login('game.price.crawler', 'game-price12#$')
 
     msg = MIMEText(error_msg,'html')
     msg['Subject'] = 'game-price-crawler event'
-    msg['To'] = 'GIRAF@sk.com'
-    smtp.sendmail('skt.mbp.smtp@gmail.com', ['kjh15011@gmail.com'], msg.as_string())
+    msg['To'] = 'kjh15011@gmail.com'
+    smtp.sendmail('game.price.crawler@gmail.com', ['kjh15011@gmail.com'], msg.as_string())
 
     smtp.quit()
     print(error_msg)
