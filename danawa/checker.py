@@ -13,7 +13,7 @@ mycursor = mydb.cursor()
 today = datetime.date.today().strftime('%Y-%m-%d')
 
 title_price = mycursor.execute("""SELECT count(*) FROM TITLE_PRICE where record_date = '{}'""".format(today)).fetchone()[0]
-if(title_price != 181) :
+if(title_price != 180) :
     error_msg = "game-price-crawler {} title_price = {}".format(today, title_price)
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.ehlo()      # say Hello
