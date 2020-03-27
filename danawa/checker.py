@@ -27,4 +27,4 @@ if(title_price != 180) :
 
     smtp.quit()
     print(error_msg)
-else: print("ok")
+else: print("{} : ok".format(today))
