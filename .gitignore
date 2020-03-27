@@ -244,3 +244,4 @@ test*
 *.db
 *.bak
 
+checker.py
